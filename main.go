@@ -75,7 +75,7 @@ func main() {
 			drawMessage(s, "GAME OVER!! Press 'r' to restart")
 		case GameClear:
 			// ゲームクリア
-			drawMessage(s, "GAME CREAR!! Press 'r' to restart")
+			drawMessage(s, "GAME CLEAR!! Press 'r' to restart")
 		}
 		s.Show()
 

@@ -13,6 +13,7 @@ const (
 	GameClear
 )
 
+// マス目の情報を保持する構造体
 type Cell struct {
 	IsMine    bool
 	IsOpen    bool
@@ -20,6 +21,7 @@ type Cell struct {
 	Adjacent  int // 周囲の地雷数
 }
 
+// ゲーム全体の情報を保持する構造体
 type Board struct {
 	Cells  [cellNums][cellNums]Cell
 	Cursor [2]int // [row, col]
@@ -42,8 +44,8 @@ var dirs = [8][2]int{
 	{1, -1}, {1, 0}, {1, 1},
 }
 
+// 全セルの周囲地雷数を計算
 func (b *Board) calcAdjacent() {
-	// 全セルの周囲地雷数を計算
 
 	for r := 0; r < cellNums; r++ {
 		for c := 0; c < cellNums; c++ {
@@ -70,8 +72,8 @@ func (b *Board) calcAdjacent() {
 	}
 }
 
+// 地雷をランダム配置
 func (b *Board) putMines() {
-	// 地雷をランダム配置
 
 	for i := 0; i < mineNums; i++ {
 		row := rand.Intn(cellNums)
@@ -84,6 +86,7 @@ func (b *Board) putMines() {
 	}
 }
 
+// カーソル移動
 func (b *Board) MoveCursor(dr, dc int) {
 	nr := b.Cursor[0] + dr
 	nc := b.Cursor[1] + dc
@@ -96,8 +99,10 @@ func (b *Board) MoveCursor(dr, dc int) {
 	b.Cursor[1] += dc
 }
 
+// 再起呼び出し用のマスのオープン処理
 func (b *Board) open(r, c int) {
 	cell := b.Cells[r][c]
+	// すでに開いている、フラグが立っている、地雷があるマスは開けない
 	if cell.IsFlagged || cell.IsMine || cell.IsOpen {
 		return
 	}
@@ -115,6 +120,7 @@ func (b *Board) open(r, c int) {
 	}
 }
 
+// マスのオープン処理
 func (b *Board) Open() {
 	r := b.Cursor[0]
 	c := b.Cursor[1]
@@ -141,6 +147,7 @@ func (b *Board) Open() {
 
 }
 
+// ゲームクリア判定
 func (b *Board) isCleared() bool {
 	for r := 0; r < cellNums; r++ {
 
@@ -153,6 +160,7 @@ func (b *Board) isCleared() bool {
 	return true
 }
 
+// フラグの切り替え
 func (b *Board) ToggleFlag() {
 	r := b.Cursor[0]
 	c := b.Cursor[1]

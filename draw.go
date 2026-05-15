@@ -2,6 +2,8 @@ package main
 
 import "github.com/gdamore/tcell/v2"
 
+// ボード全体の描画
+// 各マスの描画をdraoCellに任せる
 func drawBoard(s tcell.Screen, b *Board) {
 	s.Clear()
 	for r := 0; r < cellNums; r++ {
@@ -11,6 +13,7 @@ func drawBoard(s tcell.Screen, b *Board) {
 	}
 }
 
+// 個々のマスの描画
 func drawCell(s tcell.Screen, row, col int, cell Cell, isCursor bool, isGameOver bool) {
 	x := col * 2
 	y := row
@@ -49,10 +52,12 @@ func drawCell(s tcell.Screen, row, col int, cell Cell, isCursor bool, isGameOver
 	drawChar(s, x+1, y, '|', tcell.StyleDefault)
 }
 
+// 画面に文字を描画する関数
 func drawChar(s tcell.Screen, x, y int, r rune, style tcell.Style) {
 	s.SetContent(x, y, r, nil, style)
 }
 
+// ゲームオーバー、クリアのメッセージ描画
 func drawMessage(s tcell.Screen, msg string) {
 	// ボードの下に1行あけてメッセージを表示
 	y := cellNums + 1
